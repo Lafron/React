@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import Users from "./components/users";
+import Users from "./components/usersList";
 
 
 const App = () => {
