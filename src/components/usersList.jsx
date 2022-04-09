@@ -10,7 +10,8 @@ const Users = () => {
 
     const count = users.length;
     const pageSize = 4;
-    const [currentPage, setCurrentPage] = useState(1);
+    let [currentPage, setCurrentPage] = useState(1);
+    let [currentPageUsersNum, setUsersNumber] = useState(pageSize);
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
@@ -19,11 +20,17 @@ const Users = () => {
     const userCrop = paginate(users, currentPage, pageSize);
 
     const handleDelete = (userId) => {
-        setUsers((users) => users.filter((user) => user._id !== userId));
+        setUsersNumber(--currentPageUsersNum);
+        setUsers((users) => users.filter(user => user._id !== userId));
+
+        if (currentPageUsersNum < 1) {
+            setUsersNumber(pageSize);
+            setCurrentPage(currentPage > 1 ? --currentPage : currentPage);
+        }
     };
 
     const handleBookmarkToggle = (id) => {
-        const updateUsers = users.map((user) => {
+        const updateUsers = users.map(user => {
             if (user._id === id) {
                 user.bookmark = !user.bookmark;
             }
