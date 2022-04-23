@@ -3,6 +3,7 @@ import setQualities from "./quality";
 import setBookmarks from "./bookmark";
 
 const User = (users, uDelete, bmToggle) => {
+    // console.log(users);
     return users.map((user) => (
         <tr key={user._id}>
             <td>{user.name}</td>
