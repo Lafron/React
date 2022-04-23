@@ -1,36 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../api";
 import User from "./user";
 import RenderPhrase from "./searchStatus";
 import Pagination from "./pagination";
 import paginate from "../utils/paginate";
+import GroupList from "./groupList";
 
 const Users = () => {
-    const [users, setUsers] = useState(api.users.fetchAll());
+    const [users, setUsers] = useState();
+    const [allUsers, setAllUsers] = useState();
 
-    const count = users.length;
+    useEffect(() => {
+        api.users.default.fetchAll().then((data) => {
+            setUsers(data);
+            setAllUsers(data);
+        });
+    }, []);
+
+    const [professions, setProfession] = useState();
+
     const pageSize = 4;
     let [currentPage, setCurrentPage] = useState(1);
     let [currentPageUsersNum, setUsersNumber] = useState(pageSize);
+
+    const [selectedProf, setSelectedProf] = useState();
+
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => {
+            setProfession(data);
+        });
+    }, []);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [selectedProf]);
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
 
-    const userCrop = paginate(users, currentPage, pageSize);
+    const filteredUsers = selectedProf
+        ? users.filter(user => user.profession.name === selectedProf)
+        : users;
 
-    const handleDelete = (userId) => {
-        setUsersNumber(--currentPageUsersNum);
-        setUsers((users) => users.filter(user => user._id !== userId));
+    const userCrop = paginate(filteredUsers, currentPage, pageSize);
+    const count = filteredUsers ? filteredUsers.length : 0;
 
-        if (currentPageUsersNum < 1) {
-            setUsersNumber(pageSize);
-            setCurrentPage(currentPage > 1 ? --currentPage : currentPage);
+    const handleDelete = userId => {
+        if (filteredUsers.length > 0) {
+            if (filteredUsers.length === 1 && selectedProf) {
+                clearFilter();
+                setUsers(allUsers);
+            } else {
+                setUsersNumber(--currentPageUsersNum);
+                setUsers((filteredUsers) =>
+                    filteredUsers.filter((user) => user._id !== userId)
+                );
+
+                if (currentPageUsersNum < 1) {
+                    setUsersNumber(pageSize);
+                    setCurrentPage(currentPage > 1 ? --currentPage : currentPage);
+                }
+            }
         }
     };
 
     const handleBookmarkToggle = (id) => {
-        const updateUsers = users.map(user => {
+        const updateUsers = users.map((user) => {
             if (user._id === id) {
                 user.bookmark = !user.bookmark;
             }
@@ -39,46 +75,69 @@ const Users = () => {
         setUsers(updateUsers);
     };
 
-    const renderUsers = () => {
-        if (count > 0) {
-            return (
-                <>
-                    <table className="table table-responsiv m-0">
-                        <thead>
-                            <tr>
-                                <th scope="col">имя</th>
-                                <th scope="col">качество</th>
-                                <th scope="col">профессия</th>
-                                <th scope="col">встретился раз</th>
-                                <th scope="col">оценка</th>
-                                <th scope="col">избранное</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {User(userCrop, handleDelete, handleBookmarkToggle)}
-                        </tbody>
-                    </table>
-                    <Pagination
-                        itemsCount={count}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        onPageChange={handlePageChange}
-                    />
-                </>
-            );
-        }
+    const handleProfessionSelect = item => {
+        setSelectedProf(item.name);
     };
 
-    if (users.length > 0) {
+    const clearFilter = () => {
+        setSelectedProf();
+    };
+
+    const renderUsers = () => {
         return (
-            <div>
-                <h3>{RenderPhrase(users.length)}</h3>
-                {renderUsers()}
+            <div className="d-flex">
+                {(count > 0) && professions && (
+                    <div className="p-3">
+                        <GroupList
+                            items={professions}
+                            selectedItem={selectedProf}
+                            onItemSelect={handleProfessionSelect}
+                        />
+                        <button
+                            className="btn btn-secondary mt-2"
+                            onClick={clearFilter}
+                        >
+                            Clear
+                        </button>
+                    </div>
+                )}
+                <div className="d-flex flex-column">
+                    <h3>{RenderPhrase(count, users)}</h3>
+                    {(count > 0) && (
+                        <table className="table table-responsiv m-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">имя</th>
+                                    <th scope="col">качество</th>
+                                    <th scope="col">профессия</th>
+                                    <th scope="col">встретился раз</th>
+                                    <th scope="col">оценка</th>
+                                    <th scope="col">избранное</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {User(
+                                    userCrop,
+                                    handleDelete,
+                                    handleBookmarkToggle
+                                )}
+                            </tbody>
+                        </table>
+                    )}
+                    <div className="d-flex justify-content-center">
+                        <Pagination
+                            itemsCount={count}
+                            pageSize={pageSize}
+                            currentPage={currentPage}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                </div>
             </div>
         );
-    } else {
-        return <h3>{RenderPhrase(0)}</h3>;
-    }
+    };
+
+    return <div>{renderUsers()}</div>;
 };
 
 export default Users;
