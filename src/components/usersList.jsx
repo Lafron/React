@@ -7,13 +7,13 @@ import paginate from "../utils/paginate";
 import GroupList from "./groupList";
 
 const Users = () => {
-    const [users, setUsers] = useState();
-    const [allUsers, setAllUsers] = useState();
+    let [users, setUsers] = useState();
+    // const [allUsers, setAllUsers] = useState();
 
     useEffect(() => {
         api.users.default.fetchAll().then((data) => {
             setUsers(data);
-            setAllUsers(data);
+            // setAllUsers(data);
         });
     }, []);
 
@@ -48,15 +48,14 @@ const Users = () => {
 
     const handleDelete = userId => {
         if (filteredUsers.length > 0) {
+            users = users.filter(user => user._id !== userId);
+            setUsers(users);
+            setUsersNumber(--currentPageUsersNum);
+
             if (filteredUsers.length === 1 && selectedProf) {
                 clearFilter();
-                setUsers(allUsers);
+                setUsers(users);
             } else {
-                setUsersNumber(--currentPageUsersNum);
-                setUsers((filteredUsers) =>
-                    filteredUsers.filter((user) => user._id !== userId)
-                );
-
                 if (currentPageUsersNum < 1) {
                     setUsersNumber(pageSize);
                     setCurrentPage(currentPage > 1 ? --currentPage : currentPage);
@@ -93,11 +92,9 @@ const Users = () => {
                             selectedItem={selectedProf}
                             onItemSelect={handleProfessionSelect}
                         />
-                        <button
-                            className="btn btn-secondary mt-2"
-                            onClick={clearFilter}
-                        >
-                            Clear
+                        <button className="btn btn-secondary mt-2 ps-5 pe-5"
+                            onClick={clearFilter}>
+                                Отчистить
                         </button>
                     </div>
                 )}
