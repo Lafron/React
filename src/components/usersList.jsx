@@ -50,7 +50,7 @@ const Users = () => {
 
     const handleDelete = (userId) => {
         if (filteredUsers.length > 0) {
-            users = users.filter((user) => user._id !== userId);
+            users = users.filter(user => user._id !== userId);
             setUsers(users);
             setUsersNumber(--currentPageUsersNum);
 
@@ -103,8 +103,7 @@ const Users = () => {
                         <div>
                             <button
                                 className="btn btn-secondary mt-2 ps-5 pe-5"
-                                onClick={clearFilter}
-                            >
+                                onClick={clearFilter}>
                                 Отчистить
                             </button>
                         </div>
