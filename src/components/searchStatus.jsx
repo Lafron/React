@@ -21,7 +21,7 @@ const RenderPhrase = (number, users) => {
                 Ждите, идет загрузка данных.
             </span>
         );
-    };
+    }
 };
 
 export default RenderPhrase;
