@@ -90,7 +90,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471821",
         name: "Говард Воловиц",
-        profession: professions.engineer ? professions.engineer : professions[3],
+        profession: professions.engineer
+            ? professions.engineer
+            : professions[3],
         qualities: [qualities.strange, qualities.tedious],
         completedMeetings: 72,
         rate: 3.5,
@@ -99,7 +101,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471822",
         name: "Никола Тесла",
-        profession: professions.engineer ? professions.engineer : professions[3],
+        profession: professions.engineer
+            ? professions.engineer
+            : professions[3],
         qualities: [qualities.handsome],
         completedMeetings: 72,
         rate: 5,

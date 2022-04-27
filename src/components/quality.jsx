@@ -6,6 +6,7 @@ const setQualities = (quality) => {
 
     return (
         <span key={quality._id} className={classes}>
+            <i className="bi bi-caret-down-fill"></i>
             {quality.name}
         </span>
     );
