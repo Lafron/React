@@ -7,7 +7,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
 
     const handleSort = (item) => {
         Object.values(updColumns).map((col) => {
-            if (!col.component) {
+            if (col.path) {
                 col.sort.sorted = false;
             }
             return col;
