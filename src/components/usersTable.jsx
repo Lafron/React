@@ -29,8 +29,9 @@ const UserTable = ({ users, uDelete, bmToggle, onSort, selectedSort }) => {
             sort: { sorted: false, up: true }
         },
         bookmark: {
-            // path: "bookmark",
+            path: "bookmark",
             name: "избранное",
+            sort: { sorted: false, up: true },
             component: (user) => {
                 return (
                     <span onClick={() => bmToggle(user._id)}>
