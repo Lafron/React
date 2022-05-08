@@ -7,7 +7,7 @@ import GroupList from "./groupList";
 import UserTable from "./usersTable";
 import _ from "lodash";
 
-const Users = () => {
+const UsersList = () => {
     let [users, setUsers] = useState();
 
     useEffect(() => {
@@ -50,7 +50,7 @@ const Users = () => {
 
     const handleDelete = (userId) => {
         if (filteredUsers.length > 0) {
-            users = users.filter(user => user._id !== userId);
+            users = users.filter((user) => user._id !== userId);
             setUsers(users);
             setUsersNumber(--currentPageUsersNum);
 
@@ -92,41 +92,44 @@ const Users = () => {
 
     const renderUsers = () => {
         return (
-            <div className="d-flex">
-                {count > 0 && professions && (
-                    <div className="p-3">
-                        <GroupList
-                            items={professions}
-                            selectedItem={selectedProf}
-                            onItemSelect={handleProfessionSelect}
-                        />
-                        <div>
-                            <button
-                                className="btn btn-secondary mt-2 ps-5 pe-5"
-                                onClick={clearFilter}>
-                                Отчистить
-                            </button>
+            <div>
+                <div className="d-flex">
+                    {count > 0 && professions && (
+                        <div className="p-3">
+                            <GroupList
+                                items={professions}
+                                selectedItem={selectedProf}
+                                onItemSelect={handleProfessionSelect}
+                            />
+                            <div>
+                                <button
+                                    className="btn btn-secondary mt-2 ps-5 pe-5"
+                                    onClick={clearFilter}
+                                >
+                                    Отчистить
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )}
-                <div className="d-flex flex-column">
-                    <h3>{RenderPhrase(count, users)}</h3>
-                    {count > 0 && (
-                        <UserTable
-                            users={userCrop}
-                            uDelete={handleDelete}
-                            bmToggle={handleBookmarkToggle}
-                            onSort={handleSort}
-                            selectedSort={sortBy}
-                        />
                     )}
-                    <div className="d-flex justify-content-center">
-                        <Pagination
-                            itemsCount={count}
-                            pageSize={pageSize}
-                            currentPage={currentPage}
-                            onPageChange={handlePageChange}
-                        />
+                    <div className="d-flex flex-column mt-3">
+                        <h3>{RenderPhrase(count, users)}</h3>
+                        {count > 0 && (
+                            <UserTable
+                                users={userCrop}
+                                uDelete={handleDelete}
+                                bmToggle={handleBookmarkToggle}
+                                onSort={handleSort}
+                                selectedSort={sortBy}
+                            />
+                        )}
+                        <div className="d-flex justify-content-center">
+                            <Pagination
+                                itemsCount={count}
+                                pageSize={pageSize}
+                                currentPage={currentPage}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,4 +139,4 @@ const Users = () => {
     return <div>{renderUsers()}</div>;
 };
 
-export default Users;
+export default UsersList;

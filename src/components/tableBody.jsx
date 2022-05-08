@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 
 const TableBody = ({ data, columns }) => {
-    const renderontent = (item, col) => {
+    const renderContent = (item, col) => {
         if (columns[col].component) {
             const component = columns[col].component;
 
@@ -12,8 +12,15 @@ const TableBody = ({ data, columns }) => {
             }
             return component;
         } else {
-            return _.get(item, columns[col].path);
+            const path = columns[col].path;
+            return _.get(item, path);
         }
+    };
+
+    const userId = user => {
+        return (
+            "/users/" + user._id.toString()
+        );
     };
 
     return (
@@ -21,7 +28,15 @@ const TableBody = ({ data, columns }) => {
             {data.map((item) => (
                 <tr key={item._id}>
                     {Object.keys(columns).map((col) => (
-                        <td key={col}>{renderontent(item, col)}</td>
+                        <td key={col}>
+                            {
+                                (columns[col].path && columns[col].path === "name")
+                                    ? <a href={userId(item)}>
+                                        {renderContent(item, col)}
+                                    </a>
+                                    : renderContent(item, col)
+                            }
+                        </td>
                     ))}
                 </tr>
             ))}
