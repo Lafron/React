@@ -59,10 +59,6 @@ const UserTable = ({ users, uDelete, bmToggle, onSort, selectedSort }) => {
             columns={columns}
             data={users}
         />
-        // >
-        //     <TableHeader {...{ onSort, selectedSort, columns }} />
-        //     <TableBody {...{ columns, data: users }}/>
-        // </Table>
     );
 };
 
