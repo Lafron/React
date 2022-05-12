@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
 import setQualities from "./quality";
+import { useHistory, useParams } from "react-router-dom";
 
-const UserDetails = ({ match }) => {
-    const userId = match.params.userId;
+const UserDetails = () => {
+    const params = useParams();
+    const { userId } = params;
+
     const [selectedUser, setSelUsers] = useState();
 
     useEffect(() => {
@@ -20,6 +23,16 @@ const UserDetails = ({ match }) => {
                 </div>
             );
         });
+    };
+
+    const history = useHistory();
+
+    const handleAllUsers = () => {
+        history.push("/users");
+    };
+
+    const loading = () => {
+        return <h1>Loading...</h1>;
     };
 
     const renderParams = (user) => {
@@ -54,17 +67,22 @@ const UserDetails = ({ match }) => {
                 </div>
                 <div className="mt-2">
                     <a href="/users">
-                        <div type="button"
-                            className="btn bg-secondary text-white border-2 border-dark">
+                        <div
+                            type="button"
+                            className="btn bg-secondary text-white border-2 border-dark"
+                        >
                             All users
                         </div>
                     </a>
+                </div>
+                <div className="mt-2">
+                    <button onClick={handleAllUsers}>All Users</button>
                 </div>
             </>
         );
     };
 
-    return selectedUser ? renderParams(selectedUser) : "Loading";
+    return selectedUser ? renderParams(selectedUser) : loading();
 };
 
 export default UserDetails;

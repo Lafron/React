@@ -6,13 +6,17 @@ import paginate from "../utils/paginate";
 import GroupList from "./groupList";
 import UserTable from "./usersTable";
 import _ from "lodash";
+import Search from "./search";
 
 const UsersList = () => {
     let [users, setUsers] = useState();
+    const searchBox = document.querySelector("#searchBox");
+    const [allUsers, setAllUsers] = useState();
 
     useEffect(() => {
         api.users.default.fetchAll().then((data) => {
             setUsers(data);
+            setAllUsers(data);
         });
     }, []);
 
@@ -79,6 +83,9 @@ const UsersList = () => {
     };
 
     const handleProfessionSelect = (item) => {
+        searchBox.value = "";
+        setUsers(allUsers);
+
         setSelectedProf(item.name);
     };
 
@@ -88,6 +95,13 @@ const UsersList = () => {
 
     const handleSort = (item) => {
         setSortBy(item);
+    };
+
+    const handleSearch = () => {
+        clearFilter();
+
+        const searchUsersObj = Search(searchBox.value);
+        setUsers(searchUsersObj.searchUsers);
     };
 
     const renderUsers = () => {
@@ -113,14 +127,27 @@ const UsersList = () => {
                     )}
                     <div className="d-flex flex-column mt-3">
                         <h3>{RenderPhrase(count, users)}</h3>
+
                         {count > 0 && (
-                            <UserTable
-                                users={userCrop}
-                                uDelete={handleDelete}
-                                bmToggle={handleBookmarkToggle}
-                                onSort={handleSort}
-                                selectedSort={sortBy}
-                            />
+                            <div>
+                                <input
+                                    id="searchBox"
+                                    type="text"
+                                    defaultValue={"Search"}
+                                    className="w-100 mt-2"
+                                    onFocus={() => {
+                                        document.querySelector("#searchBox").value = "";
+                                    }}
+                                    onChange={handleSearch}
+                                />
+                                <UserTable
+                                    users={userCrop}
+                                    uDelete={handleDelete}
+                                    bmToggle={handleBookmarkToggle}
+                                    onSort={handleSort}
+                                    selectedSort={sortBy}
+                                />
+                            </div>
                         )}
                         <div className="d-flex justify-content-center">
                             <Pagination

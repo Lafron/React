@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
+// import { Link } from "react-router-dom";
 
 const TableBody = ({ data, columns }) => {
     const renderContent = (item, col) => {
         if (columns[col].component) {
             const component = columns[col].component;
-
             if (typeof component === "function") {
                 return component(item);
             }
@@ -17,11 +17,11 @@ const TableBody = ({ data, columns }) => {
         }
     };
 
-    const userId = user => {
-        return (
-            "/users/" + user._id.toString()
-        );
-    };
+    // const userId = user => {
+    //     return (
+    //         "/users/" + user._id
+    //     );
+    // };
 
     return (
         <tbody>
@@ -30,11 +30,12 @@ const TableBody = ({ data, columns }) => {
                     {Object.keys(columns).map((col) => (
                         <td key={col}>
                             {
-                                (columns[col].path && columns[col].path === "name")
-                                    ? <a href={userId(item)}>
-                                        {renderContent(item, col)}
-                                    </a>
-                                    : renderContent(item, col)
+                                // (columns[col].path && columns[col].path === "name")
+                                //     ? <Link to={`/users/${item._id}`}>
+                                //         {renderContent(item, col)}
+                                //     </Link>
+                                //     :
+                                renderContent(item, col)
                             }
                         </td>
                     ))}

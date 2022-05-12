@@ -1,14 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import TableHeader from "./tableHeader";
-// import TableBody from "./tableBody";
 import Bookmark from "./bookmark";
 import QualitiesList from "./qualitiesList";
 import Table from "./table";
+import { Link } from "react-router-dom";
 
 const UserTable = ({ users, uDelete, bmToggle, onSort, selectedSort }) => {
     const columns = {
-        name: { path: "name", name: "Имя", sort: { sorted: false, up: true } },
+        name: {
+            path: "name",
+            name: "Имя",
+            sort: { sorted: false, up: true },
+            component: (user) => (
+                <Link to={`/users/${user._id}`}>{user.name}</Link>
+            )
+        },
         qualities: {
             name: "качество",
             component: (user) => <QualitiesList qualities={user.qualities} />
