@@ -154,6 +154,8 @@ const fetchAll = () =>
         }, 2000);
     });
 
+const fetchAllWithoutDelay = () => users;
+
 const getById = (id) =>
     new Promise((resolve) => {
         window.setTimeout(function () {
@@ -163,5 +165,6 @@ const getById = (id) =>
 
 export default {
     fetchAll,
-    getById
+    getById,
+    fetchAllWithoutDelay
 };
