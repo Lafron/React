@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import api from "../api";
-import setQualities from "./quality";
+import api from "../../../api";
+import setQualities from "../../ui/qualites";
 import { useHistory, useParams } from "react-router-dom";
 
 const UserDetails = () => {

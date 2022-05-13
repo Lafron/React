@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import api from "../api";
-import RenderPhrase from "./searchStatus";
-import Pagination from "./pagination";
-import paginate from "../utils/paginate";
-import GroupList from "./groupList";
-import UserTable from "./usersTable";
+import api from "../../../api";
+import RenderPhrase from "../../ui/searchStatus";
+import Pagination from "../../common/pagination";
+import paginate from "../../../utils/paginate";
+import GroupList from "../../common/groupList";
+import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-import Search from "./search";
+import Search from "../../../components/search";
 
-const UsersList = () => {
+const UsersListPage = () => {
     let [users, setUsers] = useState();
     const searchBox = document.querySelector("#searchBox");
     const [allUsers, setAllUsers] = useState();
@@ -127,7 +127,7 @@ const UsersList = () => {
                         </div>
                     )}
                     <div className="d-flex flex-column w-100 m-3">
-                        <h3>{(!searchText) && RenderPhrase(count, users)}</h3>
+                        <h3>{RenderPhrase(count, users, searchText)}</h3>
 
                         {(searchText || count > 0) && (
                             <div className="w-100">
@@ -139,6 +139,7 @@ const UsersList = () => {
                                     onFocus={() => {
                                         document.querySelector("#searchBox").value = "";
                                     }}
+                                    onBlur={handleSearch}
                                     onChange={handleSearch}
                                 />{(searchText && count < 1)
                                     ? ("Нет совпадений...")
@@ -171,4 +172,4 @@ const UsersList = () => {
     return <div>{renderUsers()}</div>;
 };
 
-export default UsersList;
+export default UsersListPage;
