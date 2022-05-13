@@ -105,10 +105,11 @@ const UsersList = () => {
     };
 
     const renderUsers = () => {
+        const searchText = searchBox ? searchBox.value : "";
         return (
             <div>
                 <div className="d-flex">
-                    {count > 0 && professions && (
+                    {(searchText || count > 0) && professions && (
                         <div className="p-3">
                             <GroupList
                                 items={professions}
@@ -125,28 +126,32 @@ const UsersList = () => {
                             </div>
                         </div>
                     )}
-                    <div className="d-flex flex-column mt-3">
-                        <h3>{RenderPhrase(count, users)}</h3>
+                    <div className="d-flex flex-column w-100 m-3">
+                        <h3>{(!searchText) && RenderPhrase(count, users)}</h3>
 
-                        {count > 0 && (
-                            <div>
+                        {(searchText || count > 0) && (
+                            <div className="w-100">
                                 <input
                                     id="searchBox"
                                     type="text"
-                                    defaultValue={"Search"}
+                                    // defaultValue={"Search"}
                                     className="w-100 mt-2"
                                     onFocus={() => {
                                         document.querySelector("#searchBox").value = "";
                                     }}
                                     onChange={handleSearch}
-                                />
-                                <UserTable
-                                    users={userCrop}
-                                    uDelete={handleDelete}
-                                    bmToggle={handleBookmarkToggle}
-                                    onSort={handleSort}
-                                    selectedSort={sortBy}
-                                />
+                                />{(searchText && count < 1)
+                                    ? ("Нет совпадений...")
+                                    : (
+                                        <UserTable
+                                            users={userCrop}
+                                            uDelete={handleDelete}
+                                            bmToggle={handleBookmarkToggle}
+                                            onSort={handleSort}
+                                            selectedSort={sortBy}
+                                        />
+                                    )
+                                }
                             </div>
                         )}
                         <div className="d-flex justify-content-center">
