@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Main from "./layout/main";
 import Login from "./layout/login";
 import Users from "./layout/users";
-import NavBar from "./components/navBar";
+import NavBar from "./components/ui/navBar";
 import NotFound from "./components/notFound";
 
 const App = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Sort from "./sort";
+import Sort from "../../sort";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
     const [updColumns, setColumns] = useState(columns);

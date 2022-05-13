@@ -1,6 +1,6 @@
 import React from "react";
 
-const RenderPhrase = (number, users) => {
+const RenderPhrase = (number, users, searchText) => {
     if (users) {
         if (number > 0) {
             return (
@@ -9,11 +9,15 @@ const RenderPhrase = (number, users) => {
                 </span>
             );
         } else {
-            return (
-                <span className="text-light bg-danger p-2">
+            if (searchText) {
+                return null;
+            } else {
+                return (
+                    <span className="text-light bg-danger p-2">
                     Никто с табой не тусанёт
-                </span>
-            );
+                    </span>
+                );
+            }
         }
     } else {
         return (
