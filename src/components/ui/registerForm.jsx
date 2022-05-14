@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from "react";
 import TextField from "../textField";
 import { validator } from "../../utils/validator";
+import api from "../../api";
 
-const LoginForm = () => {
-    const [data, setData] = useState({ email: "", password: "" });
+const RegisterForm = () => {
+    const [data, setData] = useState({
+        email: "",
+        password: "",
+        profession: ""
+    });
     let [errors, setErrors] = useState({});
+    const [professions, setProfession] = useState();
+
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => {
+            setProfession(data);
+        });
+    }, []);
 
     const validatorConfig = {
         email: {
@@ -62,6 +74,34 @@ const LoginForm = () => {
                 errors={errors.password}
                 onChange={handleChange}
             />
+            <div className="mb-4">
+                <label htmlFor="validationCustom04" className="form-label">
+                    State
+                </label>
+                <select
+                    className="form-select"
+                    id="validationCustom04"
+                    name="profession"
+                    defaultValue={data.profession}
+                    onChange={handleChange}
+                >
+                    <option disabled value="">
+                        Choose...
+                    </option>
+                    {professions &&
+                        Object.keys(professions).map((prof) => (
+                            <option
+                                key={professions[prof]._id}
+                                value={professions[prof]._id}
+                            >
+                                {professions[prof].name}
+                            </option>
+                        ))}
+                </select>
+                <div className="invalid-feedback">
+                    Please select a valid state.
+                </div>
+            </div>
             <button
                 type="submit"
                 disabled={!isValid}
@@ -72,4 +112,4 @@ const LoginForm = () => {
         </form>
     );
 };
-export default LoginForm;
+export default RegisterForm;

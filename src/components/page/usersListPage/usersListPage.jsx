@@ -136,12 +136,15 @@ const UsersListPage = () => {
                                     type="text"
                                     // defaultValue={"Search"}
                                     className="w-100 mt-2"
-                                    onFocus={() => {
-                                        document.querySelector("#searchBox").value = "";
-                                    }}
+                                    // onFocus={() => {
+                                    //     document.querySelector(
+                                    //         "#searchBox"
+                                    //     ).value = "";
+                                    // }}
                                     onBlur={handleSearch}
                                     onChange={handleSearch}
-                                />{(searchText && count < 1)
+                                />
+                                {searchText && count < 1
                                     ? ("Нет совпадений...")
                                     : (
                                         <UserTable
@@ -151,8 +154,7 @@ const UsersListPage = () => {
                                             onSort={handleSort}
                                             selectedSort={sortBy}
                                         />
-                                    )
-                                }
+                                    )}
                             </div>
                         )}
                         <div className="d-flex justify-content-center">

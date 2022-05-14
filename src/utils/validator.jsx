@@ -5,30 +5,30 @@ export function validator(data, config) {
         let statusValidate;
 
         switch (validateMethod) {
-        case "isRequared":
-            statusValidate = data.trim() === "";
-            break;
-        case "isEmail": {
-            const emailRegExp = /^\S+@\S+\.\S+$/g;
-            statusValidate = !emailRegExp.test(data);
-            break;
-        }
-        case "isCapitalSym": {
-            const capitalRegExp = /[A-Z]+/g;
-            statusValidate = !capitalRegExp.test(data);
-            break;
-        }
-        case "isContainDigit": {
-            const digitRegExp = /\d+/g;
-            statusValidate = !digitRegExp.test(data);
-            break;
-        }
-        case "min": {
-            statusValidate = data.length < config.value;
-            break;
-        }
-        default:
-            break;
+            case "isRequared":
+                statusValidate = data.trim() === "";
+                break;
+            case "isEmail": {
+                const emailRegExp = /^\S+@\S+\.\S+$/g;
+                statusValidate = !emailRegExp.test(data);
+                break;
+            }
+            case "isCapitalSym": {
+                const capitalRegExp = /[A-Z]+/g;
+                statusValidate = !capitalRegExp.test(data);
+                break;
+            }
+            case "isContainDigit": {
+                const digitRegExp = /\d+/g;
+                statusValidate = !digitRegExp.test(data);
+                break;
+            }
+            case "min": {
+                statusValidate = data.length < config.value;
+                break;
+            }
+            default:
+                break;
         }
         if (statusValidate) return config.message;
     }
