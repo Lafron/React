@@ -14,7 +14,7 @@ const RenderPhrase = (number, users, searchText) => {
             } else {
                 return (
                     <span className="text-light bg-danger p-2">
-                    Никто с табой не тусанёт
+                        Никто с табой не тусанёт
                     </span>
                 );
             }
