@@ -1,21 +1,39 @@
 import React, { useEffect, useState } from "react";
-import TextField from "../textField";
+import TextField from "../common/form/textField";
 import { validator } from "../../utils/validator";
+import CheckBoxField from "../common/form/checkBoxField";
+// import * as yup from "yup";
 
 const LoginForm = () => {
-    const [data, setData] = useState({ email: "", password: "" });
+    const [data, setData] = useState({ email: "", password: "", stayOn: false });
     let [errors, setErrors] = useState({});
+
+    // const validateSchema = yup.object().shape({
+    //     password: yup
+    //         .string()
+    //         .required("Password is required")
+    //         .matches(/^(?=.*[A-Z])/, "Password must contain at least one capital letters")
+    //         .matches(/(?=.*[0-9])/, "Password must contain at least one digit")
+    //         .matches(/(?=.*[!@#$%^&*])/, "Password must contain one of the special characters: !@#$%^&*")
+    //         .matches(/(?=.{8,})/, "Password must be at least 8 characters long"),
+
+    //     email: yup
+    //         .string()
+    //         .required("E-mail is required")
+    //         .email("E-mail isn't correct!")
+
+    // });
 
     const validatorConfig = {
         email: {
-            isRequared: { message: "E-mail is requared" },
+            isRequired: { message: "E-mail is required" },
             isEmail: { message: "E-mail isn't correct!" }
         },
         password: {
-            isRequared: { message: "Password is requared" },
-            isCapitalSym: { message: "Password must have capital letters" },
-            isContainDigit: { message: "Password must have digits" },
-            min: { message: "Password must have 8 symbols", value: 8 }
+            isRequired: { message: "Password is required" },
+            isCapitalSym: { message: "Password must contain at least one capital letters" },
+            isContainDigit: { message: "Password must contain at least one digit" },
+            min: { message: "Password must be at least 8 characters long", value: 8 }
         }
     };
 
@@ -26,12 +44,18 @@ const LoginForm = () => {
     const validate = () => {
         errors = validator(data, validatorConfig);
         setErrors(errors);
+
+        // validateSchema
+        //     .validate(data)
+        //     .then(() => setErrors({}))
+        //     .catch(err => setErrors({ [err.path]: err.message }));
+
         return Object.keys(errors).length === 0;
     };
 
     const isValid = Object.keys(errors).length === 0;
 
-    const handleChange = ({ target }) => {
+    const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -62,6 +86,12 @@ const LoginForm = () => {
                 errors={errors.password}
                 onChange={handleChange}
             />
+            <CheckBoxField
+                value={data.stayOn}
+                onChange={handleChange}
+                name="stayOn">
+                    Remain in the system
+            </CheckBoxField>
             <button
                 type="submit"
                 disabled={!isValid}

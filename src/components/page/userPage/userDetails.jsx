@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../api";
-import setQualities from "../../ui/qualites";
+import QualitiesObj from "../../ui/qualites";
 import { useHistory, useParams } from "react-router-dom";
 
 const UserDetails = () => {
@@ -10,7 +10,7 @@ const UserDetails = () => {
     const [selectedUser, setSelUsers] = useState();
 
     useEffect(() => {
-        api.users.default.getById(userId).then((data) => {
+        api.users.getById(userId).then((data) => {
             setSelUsers(data);
         });
     }, []);
@@ -19,7 +19,7 @@ const UserDetails = () => {
         return user.qualities.map((qual) => {
             return (
                 <div key={qual.name} className="row">
-                    <div className="col">{setQualities(qual)}</div>
+                    <div className="col">{QualitiesObj.setQualities(qual)}</div>
                 </div>
             );
         });
@@ -28,7 +28,7 @@ const UserDetails = () => {
     const history = useHistory();
 
     const handleAllUsers = () => {
-        history.push("/users");
+        history.push("/users/" + userId + "/edit");
     };
 
     const loading = () => {
@@ -66,17 +66,7 @@ const UserDetails = () => {
                     </div>
                 </div>
                 <div className="mt-2">
-                    <a href="/users">
-                        <div
-                            type="button"
-                            className="btn bg-secondary text-white border-2 border-dark"
-                        >
-                            All users
-                        </div>
-                    </a>
-                </div>
-                <div className="mt-2">
-                    <button onClick={handleAllUsers}>All Users</button>
+                    <button onClick={handleAllUsers}>Edit</button>
                 </div>
             </>
         );

@@ -1,8 +1,4 @@
-import api from "../api";
-
-const Search = (searchText) => {
-    const users = api.users.default.fetchAllWithoutDelay();
-
+const Search = (searchText, users) => {
     const searchUsers = searchText
         ? users.filter((user) =>
             user.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
