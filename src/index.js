@@ -7,6 +7,7 @@ import Login from "./layout/login";
 import Users from "./layout/users";
 import NavBar from "./components/ui/navBar";
 import NotFound from "./components/notFound";
+import Edit from "./components/page/Edit/edit";
 
 const App = () => {
     return (
@@ -15,7 +16,8 @@ const App = () => {
             <Switch>
                 <Route path="/" exact component={Main} />
                 <Route path="/login/:type?" component={Login} />
-                <Route path="/users/:userId?" component={Users} />
+                <Route path="/users/:userId?" exact component={Users} />
+                <Route path="/users/:userId/edit" component={Edit} />
                 <Route path="/404" component={NotFound} />
                 <Redirect to="/404" />
             </Switch>

@@ -14,7 +14,7 @@ const UsersListPage = () => {
     const [allUsers, setAllUsers] = useState();
 
     useEffect(() => {
-        api.users.default.fetchAll().then((data) => {
+        api.users.fetchAll().then((data) => {
             setUsers(data);
             setAllUsers(data);
         });
@@ -100,7 +100,7 @@ const UsersListPage = () => {
     const handleSearch = () => {
         clearFilter();
 
-        const searchUsersObj = Search(searchBox.value);
+        const searchUsersObj = Search(searchBox.value, allUsers);
         setUsers(searchUsersObj.searchUsers);
     };
 

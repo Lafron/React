@@ -19,25 +19,27 @@ const Login = () => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
-                    {formType === "register" ? (
-                        <>
-                            <h3 className="mb-4">Register Form</h3>
-                            <RegisterForm />
-                            <p>Already have account?</p>
-                            <a role={"button"} onClick={toggleFormType}>
+                    {formType === "register"
+                        ? (
+                            <>
+                                <h3 className="mb-4">Register Form</h3>
+                                <RegisterForm />
+                                <p>Already have account?</p>
+                                <a role={"button"} onClick={toggleFormType}>
                                 Sign In
-                            </a>
-                        </>
-                    ) : (
-                        <>
-                            <h3 className="mb-4">Login</h3>
-                            <LoginForm />
-                            <p>Don&apos;t have account?</p>
-                            <a role={"button"} onClick={toggleFormType}>
+                                </a>
+                            </>
+                        )
+                        : (
+                            <>
+                                <h3 className="mb-4">Login</h3>
+                                <LoginForm />
+                                <p>Don&apos;t have account?</p>
+                                <a role={"button"} onClick={toggleFormType}>
                                 Sign Up
-                            </a>
-                        </>
-                    )}
+                                </a>
+                            </>
+                        )}
                 </div>
             </div>
         </div>

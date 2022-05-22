@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Bookmark from "../common/bookmark";
-import Qualities from "./qualites";
+import QualitiesObj from "./qualites";
 import Table from "../common/table";
 import { Link } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const UserTable = ({ users, uDelete, bmToggle, onSort, selectedSort }) => {
         },
         qualities: {
             name: "качество",
-            component: (user) => <Qualities qualities={user.qualities} />
+            component: (user) => <QualitiesObj.QualitiesList qualities={user.qualities} />
         },
         professions: {
             path: "profession.name",

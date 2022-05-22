@@ -36,7 +36,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471815",
         name: "Джон Дориан",
-        profession: professions.doctor ? professions.doctor : professions[0],
+        email: "Jony7351@tw.com",
+        sex: "male",
+        profession: professions.doctor,
         qualities: [qualities.tedious, qualities.uncertain, qualities.strange],
         completedMeetings: 36,
         rate: 2.5,
@@ -45,7 +47,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471816",
         name: "Кокс",
-        profession: professions.doctor ? professions.doctor : professions[0],
+        email: "white4571@twipet.com",
+        sex: "male",
+        profession: professions.doctor,
         qualities: [qualities.buller, qualities.handsome, qualities.alcoholic],
         completedMeetings: 15,
         rate: 2.5,
@@ -54,7 +58,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471817",
         name: "Боб Келсо",
-        profession: professions.doctor ? professions.doctor : professions[0],
+        email: "bob007@tw.com",
+        sex: "male",
+        profession: professions.doctor,
         qualities: [qualities.buller],
         completedMeetings: 247,
         rate: 3.5,
@@ -63,7 +69,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471818",
         name: "Рэйчел Грин",
-        profession: professions.waiter ? professions.waiter : professions[1],
+        email: "green7311@fam.biz",
+        sex: "female",
+        profession: professions.waiter,
         qualities: [qualities.uncertain],
         completedMeetings: 148,
         rate: 3.5,
@@ -72,7 +80,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471819",
         name: "Шелдон Купер",
-        profession: professions.physics ? professions.physics : professions[2],
+        email: "mindgames6878@phis.tech",
+        sex: "male",
+        profession: professions.physics,
         qualities: [qualities.strange, qualities.tedious],
         completedMeetings: 37,
         rate: 4.6,
@@ -81,7 +91,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471820",
         name: "Леонард Хофстедтер",
-        profession: professions.physics ? professions.physics : professions[2],
+        email: "mindes000@phis.tech",
+        sex: "male",
+        profession: professions.physics,
         qualities: [qualities.strange, qualities.uncertain],
         completedMeetings: 147,
         rate: 3.5,
@@ -90,9 +102,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471821",
         name: "Говард Воловиц",
-        profession: professions.engineer
-            ? professions.engineer
-            : professions[3],
+        email: "gov1903@phis.tech",
+        sex: "male",
+        profession: professions.engineer,
         qualities: [qualities.strange, qualities.tedious],
         completedMeetings: 72,
         rate: 3.5,
@@ -101,9 +113,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471822",
         name: "Никола Тесла",
-        profession: professions.engineer
-            ? professions.engineer
-            : professions[3],
+        email: "electro@underground.tech",
+        sex: "male",
+        profession: professions.engineer,
         qualities: [qualities.handsome],
         completedMeetings: 72,
         rate: 5,
@@ -112,7 +124,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471823",
         name: "Моника Геллер",
-        profession: professions.cook ? professions.cook : professions[5],
+        email: "mono@super.com",
+        sex: "female",
+        profession: professions.cook,
         qualities: [qualities.strange, qualities.uncertain],
         completedMeetings: 17,
         rate: 4.5,
@@ -121,7 +135,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed471824",
         name: "Рататуй",
-        profession: professions.cook ? professions.cook : professions[5],
+        email: "ratatatata@underground.com",
+        sex: "male",
+        profession: professions.cook,
         qualities: [qualities.handsome, qualities.buller],
         completedMeetings: 17,
         rate: 4.5,
@@ -130,7 +146,9 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed47181f",
         name: "Джоуи Триббиани",
-        profession: professions.actor ? professions.actor : professions[4],
+        email: "joe@trib.com",
+        sex: "male",
+        profession: professions.actor,
         qualities: [qualities.uncertain, qualities.strange],
         completedMeetings: 434,
         rate: 3.5,
@@ -139,32 +157,47 @@ const users = [
     {
         _id: "67rdca3eeb7f6fgeed47181r",
         name: "Брэд Питт",
-        profession: professions.actor ? professions.actor : professions[4],
+        email: "superstar@star.com",
+        sex: "male",
+        profession: professions.actor,
         qualities: [qualities.handsome],
         completedMeetings: 434,
         rate: 5,
         bookmark: false
     }
 ];
+if (!localStorage.getItem("users")) {
+    localStorage.setItem("users", JSON.stringify(users));
+};
 
 const fetchAll = () =>
     new Promise((resolve) => {
         window.setTimeout(function () {
-            resolve(users);
+            resolve(JSON.parse(localStorage.getItem("users")));
         }, 2000);
     });
 
-const fetchAllWithoutDelay = () => users;
+const update = (id, data) =>
+    new Promise((resolve) => {
+        const users = JSON.parse(localStorage.getItem("users"));
+        const userIndex = users.findIndex((u) => u._id === id);
+        users[userIndex] = { ...users[userIndex], ...data };
+        localStorage.setItem("users", JSON.stringify(users));
+        resolve(users[userIndex]);
+    });
 
 const getById = (id) =>
     new Promise((resolve) => {
         window.setTimeout(function () {
-            resolve(users.find((user) => user._id === id));
+            resolve(
+                JSON.parse(localStorage.getItem("users")).find(
+                    (user) => user._id === id
+                )
+            );
         }, 1000);
     });
-
 export default {
     fetchAll,
     getById,
-    fetchAllWithoutDelay
+    update
 };
